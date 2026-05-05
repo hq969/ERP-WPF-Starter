@@ -1,0 +1,28 @@
+using ERP.WPF.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+
+namespace ERP.WPF.Data
+{
+    public class AppDbContext
+    {
+        public List<Product> Products { get; set; } = new()
+        {
+            new Product { Id = 1, Name = "Dell XPS Laptop", Quantity = 12, Price = 1299.99m },
+            new Product { Id = 2, Name = "Logitech Wireless Mouse", Quantity = 85, Price = 29.99m },
+            new Product { Id = 3, Name = "Apple Magic Keyboard", Quantity = 45, Price = 99.99m },
+            new Product { Id = 4, Name = "Samsung 27in Monitor", Quantity = 28, Price = 349.99m },
+            new Product { Id = 5, Name = "USB-C Cable 2m", Quantity = 150, Price = 12.99m }
+        };
+
+        public void SaveChanges()
+        {
+            var maxId = Products.Any() ? Products.Max(p => p.Id) : 0;
+            var newProduct = Products.FirstOrDefault(p => p.Id == 0);
+            if (newProduct != null)
+            {
+                newProduct.Id = maxId + 1;
+            }
+        }
+    }
+}
